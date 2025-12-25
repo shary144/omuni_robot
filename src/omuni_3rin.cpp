@@ -20,12 +20,16 @@ private:
             robomas_package_2::msg::Ems EMS;
             EMS.ems_stop = true;
             pub_ems_->publish(EMS);
+
+            RCLCPP_INFO(this->get_logger(), "ems true");
         }
         else if(msg->buttons[7]){
             // 駆動モードへ
             robomas_package_2::msg::Ems EMS;
             EMS.ems_stop = false;
             pub_ems_->publish(EMS);
+
+            RCLCPP_INFO(this->get_logger(), "ems false");
         }
         
         robomas_package_2::msg::MotorCmdArray out;
@@ -33,14 +37,14 @@ private:
         robomas_package_2::msg::MotorCmd cmd;
 
         if(msg->buttons[0] && !msg->buttons[1]){
-            cmd.id = 4;
+            cmd.id = 2;
             cmd.mode = 1;
             cmd.value = 1000.0f;
             out.cmds.push_back(cmd);
         }
 
         if (msg->buttons[3]) {
-            cmd.id = 4;
+            cmd.id = 2;
             cmd.mode = 1;
             cmd.value = 0.0f;
             out.cmds.push_back(cmd);
