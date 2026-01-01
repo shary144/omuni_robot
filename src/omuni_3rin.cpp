@@ -38,7 +38,7 @@ private:
             m["id"] = motor_id[i];
             arr[i++] = m;
         }
-        return m
+        return m;
     }
     void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg){
         if(msg->buttons[6]){
