@@ -28,4 +28,8 @@ sudo ip link set can0 up type can bitrate 1000000
 # ROS2 ノード起動（通常ユーザー）
 ros2 run robomas_package_2 sender
 ros2 run robomas_package_2 receiver
+ros2 run joy joy_node
 ros2 run omuni_robot omuni_3rin_node
+
+# 一応起動用
+ros2 topic echo /joy
