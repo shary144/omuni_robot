@@ -31,6 +31,7 @@ private:
         double e_x = x/d;
         double e_y = y/d;
         int i=0;
+        std::array<std::map<std::string, int>,3> = arr;
         std::map<std::string, int> m;
         for (const double angle: wheel_angles){
             std::array<double,2> e_theta = {std::cos(angle+PI/2),std::sin(angle+PI/2)};
@@ -38,7 +39,7 @@ private:
             m["id"] = motor_id[i];
             arr[i++] = m;
         }
-        return m;
+        return arr;
     }
     void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg){
         if(msg->buttons[6]){
