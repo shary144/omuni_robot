@@ -5,10 +5,11 @@
 #include "robomas_package_2/msg/ems.hpp"
 
 // 以下標準ライブラリ.
-#include<vector>
-#include<array>
+#include <vector>
+#include <array>
 #include <cmath>
 #include <numbers>
+#include <map>
 
 class Omuni3Rin : public rclcpp::Node
 {
@@ -66,9 +67,9 @@ private:
         double y = msg->axes[3]*1000.0f;
         
         for (auto wheel: wheel_velocities(int x,int y)){
-            cmd.id = wheel.id;
+            cmd.id = wheel["id"];
             cmd.mode = 2;
-            cmd.value = wheel.value;
+            cmd.value = wheel["value"];
             out.cmds.push_back(cmd);
         }
         
