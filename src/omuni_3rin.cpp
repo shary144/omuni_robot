@@ -4,6 +4,12 @@
 #include "robomas_package_2/msg/motor_cmd.hpp"
 #include "robomas_package_2/msg/ems.hpp"
 
+// 以下標準ライブラリ.
+#include<vector>
+#include<array>
+#include <cmath>
+#include <numbers>
+
 class Omuni3Rin : public rclcpp::Node
 {
 public:
@@ -14,6 +20,25 @@ public:
     }
 
 private:
+    const double PI = std::numbers::pi;
+    // 機械的パラメータ
+    std::array<double,3> motor_id = {1,3,4};
+    std::array<double,3> wheel_angles = {PI/3,-PI,-PI/3};
+
+    std::array<std::map<std::string,double>,3> wheel_velocities(int x,int y){
+        double d = std::sqrt(x*x+y*y);
+        double e_x = x/d;
+        double e_y = y/d;
+        int i=0;
+        std::map<std::string, int> m;
+        for (const double angle: wheel_angles){
+            std::array<double,2> e_theta = {std::cos(angle+PI/2),std::sin(angle+PI/2)};
+            m["value"] = e_theta[0]*e_x+e_theta[1]*e_y;
+            m["id"] = motor_id[i];
+            arr[i++] = m;
+        }
+        return m
+    }
     void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg){
         if(msg->buttons[6]){
             // 非常停止モードへ
@@ -36,6 +61,17 @@ private:
 
         robomas_package_2::msg::MotorCmd cmd;
 
+
+        double x = msg->axes[2]*1000.0f; //? 対応がよく分かってない
+        double y = msg->axes[3]*1000.0f;
+        
+        for (auto wheel: wheel_velocities(int x,int y)){
+            cmd.id = wheel.id;
+            cmd.mode = 2;
+            cmd.value = wheel.value;
+            out.cmds.push_back(cmd);
+        }
+        
         if(msg->buttons[0] && !msg->buttons[1]){
             cmd.id = 2;
             cmd.mode = 1;
@@ -50,6 +86,7 @@ private:
             out.cmds.push_back(cmd);
         }
 
+
       /*  if(msg->buttons[1] && !msg->buttons[0]){
             cmd.id = 4;
             cmd.mode = 2;
@@ -63,6 +100,7 @@ private:
             cmd.value = 15.0f;
             out.cmds.push_back(cmd);
         } */
+        //ここまで自由記述
 
         pub_motor_->publish(out);
 
