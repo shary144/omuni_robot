@@ -63,9 +63,13 @@ private:
 
         robomas_package_2::msg::MotorCmd cmd;
 
-
-        double x = msg->axes[2]*1000.0f; //? 対応がよく分かってない
-        double y = msg->axes[3]*1000.0f;
+// [0] 左スティック X軸
+//     左: -1 / 右: +1
+// [1] 左スティック Y軸
+//     上: -1 / 下: +1
+// です。READMEにもメモっておきました。
+        double x = msg->axes[0]*1000.0f; //左スティックX軸(右向きを正)
+        double y = -(msg->axes[1]*1000.0f); //左スティックY軸(上向きを正としている)
         
         for (auto wheel: wheel_velocities(int x,int y)){
             cmd.id = wheel["id"];
