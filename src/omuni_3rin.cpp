@@ -26,13 +26,13 @@ private:
     std::array<double,3> motor_id = {1,3,4};
     std::array<double,3> wheel_angles = {PI/3,-PI,-PI/3};
 
-    std::array<std::map<std::string,double>,3> wheel_velocities(int x,int y){
+    std::array<std::map<std::string,double>,3> wheel_velocities(double x,double y){
         double d = std::sqrt(x*x+y*y);
         double e_x = x/d;
         double e_y = y/d;
         int i=0;
-        std::array<std::map<std::string, int>,3> = arr;
-        std::map<std::string, int> m;
+        std::array<std::map<std::string, double>,3> arr;
+        std::map<std::string, double> m;
         for (const double angle: wheel_angles){
             std::array<double,2> e_theta = {std::cos(angle+PI/2),std::sin(angle+PI/2)};
             m["value"] = e_theta[0]*e_x+e_theta[1]*e_y;
@@ -71,7 +71,7 @@ private:
         double x = msg->axes[0]*1000.0f; //左スティックX軸(右向きを正)
         double y = -(msg->axes[1]*1000.0f); //左スティックY軸(上向きを正としている)
         
-        for (auto wheel: wheel_velocities(int x,int y)){
+        for (auto wheel: wheel_velocities(x,y)){
             cmd.id = wheel["id"];
             cmd.mode = 2;
             cmd.value = wheel["value"];

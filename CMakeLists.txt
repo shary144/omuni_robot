@@ -19,6 +19,9 @@ add_executable(omuni_3rin_node
   src/omuni_3rin.cpp
 )
 
+#コンパイルのバージョンをg++ 20に指定。これによりnumbersが使えるようになる、らしい。
+target_compile_features(omuni_3rin_node PUBLIC cxx_std_20)
+
 # ---- 依存関係 ----
 ament_target_dependencies(omuni_3rin_node
   rclcpp
