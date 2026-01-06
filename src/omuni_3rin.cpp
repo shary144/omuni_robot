@@ -8,7 +8,7 @@
 #include <vector>
 #include <array>
 #include <cmath>
-#include <numbers>
+//#include <numbers> C++20以降の機能なので使えない
 #include <map>
 
 class Omuni3Rin : public rclcpp::Node
@@ -21,7 +21,7 @@ public:
     }
 
 private:
-    const double PI = std::numbers::pi;
+    const double PI = 3.14159265;
     // 機械的パラメータ
     std::array<double,3> motor_id = {1,3,4};
     std::array<double,3> wheel_angles = {PI/3,-PI,-PI/3};
