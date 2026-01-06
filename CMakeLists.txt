@@ -35,5 +35,11 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(
+  DIRECTORY tools
+  DESTINATION share/${PROJECT_NAME}
+)
+
+
 # ---- ament ----
 ament_package()
